@@ -1,0 +1,67 @@
+{
+  "products": [
+    {
+      "name": "3424232",
+      "description": "Sở hữu công thức pha màu khó chịu. Urbas Unsettling tạo nên điểm nhấn mạnh mẽ, gây kích thích thị giác thông qua sự đối lập trong từng gam màu. Điểm chốt hạ cho một outfit đặc biệt thú vị, tách biệt khỏi sự trùng lặp thông thường.",
+      "price": "550.000",
+      "originalPrice": "870.000",
+      "discount": 10,
+      "image": "https://ananas.vn/wp-content/uploads/pro_A61107_1.jpg",
+      "category": "Basas",
+      "id": 5334,
+      "comments": [
+        {
+          "id": 1,
+          "content": "đẹp"
+        },
+        {
+          "id": 1,
+          "content": "sản phẩm tốt"
+        }
+      ]
+    },
+    {
+      "name": "3424232",
+      "description": "Sở hữu công thức pha màu khó chịu. Urbas Unsettling tạo nên điểm nhấn mạnh mẽ, gây kích thích thị giác thông qua sự đối lập trong từng gam màu. Điểm chốt hạ cho một outfit đặc biệt thú vị, tách biệt khỏi sự trùng lặp thông thường.",
+      "price": "550.000",
+      "originalPrice": "870.000",
+      "discount": 10,
+      "image": "https://ananas.vn/wp-content/uploads/pro_A61107_1.jpg",
+      "category": "Basas",
+      "id": 5335,
+      "comments": [
+        {
+          "id": 1,
+          "content": "chao 1"
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "email": "admin@gmail.com",
+      "password": "$2a$10$Q0Hg/.r0mTRwFVvoTp/CZuq.RtmdMzjH9x2z2jeLzhKrIfnyltWGy",
+      "firstName": "Admin",
+      "lastName": "  ",
+      "marketingAccept": false,
+      "id": 1
+    },
+    {
+      "email": "thivpph24307@fpt.edu.vn",
+      "password": "$2a$10$DD4hCa3vcWwujVmUN2rLh.STMMfNq9E5PZkK3fvFwgksaFEh7qkLq",
+      "firstName": "Test",
+      "lastName": "Vũ",
+      "marketingAccept": false,
+      "id": 2
+    },
+    {
+      "email": "Name@gmail.com",
+      "password": "$2a$10$2DJ81Q1ab93dOFxPAkICj.3zM.sTxDWQ36HiVJIP6J/sA2Rxxm3zC",
+      "firstName": "Test",
+      "lastName": "Vũ",
+      "marketingAccept": false,
+      "id": 3
+    }
+  ]
+  
+}
