@@ -212,7 +212,7 @@ const ProductDetailPage = () => {
       placeholder="Nhập bình luận..."
       className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600"
     />
-    <button type="submit" className="mt-2 bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 transition-colors ease-in-out duration-200 cursor-not-allowed">
+    <button type="submit" className="mt-2 bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 transition-colors ">
   Gửi
 </button>
 

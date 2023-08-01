@@ -79,21 +79,17 @@ export const fetchCommentsByProductId = createAsyncThunk<
 // });
 export const addCommentToProduct = createAsyncThunk<
   { id: number; comment: Comment },
-  { id: number; commentContent: string }
->("comment/addCommentToProduct", async ({ id, commentContent }) => {
+  { id: number; comment: string }
+>("comment/addCommentToProduct", async ({ id, comment }) => {
   try {
-    // Gửi yêu cầu POST đến đường dẫn để thêm bình luận vào sản phẩm có id tương ứng
-    const response = await axios.post(
-      `http://localhost:3000/products/${id}/comments`,
-      {
-        content: commentContent,
-      }
-    );
+    // Gửi yêu cầu HTTP POST để thêm bình luận vào sản phẩm
+    const response = await axios.post(`http://localhost:3001/products/${id}`, {
+      content: comment,
+    });
+    const newComment = response.data;
 
-    // Trả về bình luận mới để cập nhật state
-    return { id: id, comment: response.data };
-  } catch (error: any) {
-    // Xử lý lỗi nếu có
+    return { id, comment: newComment };
+  } catch (error) {
     throw new Error("Failed to add comment.");
   }
 });
