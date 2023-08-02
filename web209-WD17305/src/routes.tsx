@@ -9,6 +9,7 @@ import UpdateProduct from "./page/updateProduct";
 import AddProduct from "./page/addProduct";
 import SignUp from "./page/signup";
 import SignIn from "./page/signin";
+import Category from "./page/category";
 
 export const router = createBrowserRouter([
     // Định nghĩa route cho website
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
             { path: "dashboard", element: <div><Admin/></div> },
             { path: "dashboard/product/update/:id", element: <div><UpdateProduct/></div> },
             { path: "dashboard/product/add", element: <div><AddProduct/></div> },
+            { path: "dashboard/category", element: <div><Category/></div> },
 
         ],
     },

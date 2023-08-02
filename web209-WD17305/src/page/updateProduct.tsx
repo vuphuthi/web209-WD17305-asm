@@ -77,7 +77,16 @@ const UpdateProduct = () => {
     }
 
     // Gọi action updateProduct để cập nhật sản phẩm với `id` tương ứng
-    dispatch(updateProduct({ ...productData, id }));
+    dispatch(updateProduct({ ...productData, id }))
+    .then(() => {
+      // Thêm thành công, chuyển hướng sang trang admin (ví dụ là "/admin")
+      alert("Sửa sản phẩm thành công")
+      window.location.href = "/admin";
+    })
+    .catch((error:any) => {
+      // Xử lý lỗi nếu cần thiết
+      console.error("Lỗi khi thêm sản phẩm:", error);
+    });
   };
 
   // Lấy thông tin sản phẩm từ Redux khi component được tải
@@ -214,9 +223,10 @@ const UpdateProduct = () => {
 
           <div className="form-group">
             <label htmlFor="category" className="block mt-3 font-semibold text-gray-700">
-              Danh mục:
+              Danh mục loại
             </label>
-            <select
+            <input
+              type="text"
               id="category"
               name="category"
               value={productData.category}
@@ -224,11 +234,8 @@ const UpdateProduct = () => {
               className={`w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm ${
                 errors.category && submitted ? "border-red-500" : ""
               }`}
-            >
-              <option value="danh_muc_1">Danh mục 1</option>
-              <option value="danh_muc_2">Danh mục 2</option>
-              {/* Thêm các danh mục khác vào đây */}
-            </select>
+              placeholder="Nhập loại sản phẩm"
+            />
             {errors.category && submitted && (
               <p className="text-red-500 text-sm mt-1">{errors.category}</p>
             )}

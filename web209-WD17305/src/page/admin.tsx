@@ -86,8 +86,8 @@ const Admin = () => {
               </svg>
               <span className="">Sản phẩm chung</span>
             </a>
-            <a
-              href=""
+            <Link
+              to="category"
               className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
             >
               <svg
@@ -98,8 +98,8 @@ const Admin = () => {
               >
                 <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z"></path>
               </svg>
-              <span className="">Laptop</span>
-            </a>
+              <span className="">Loại</span>
+            </Link>
             <a
               href=""
               className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
@@ -233,40 +233,40 @@ const Admin = () => {
 
                         return (
                           <tr key={product.id}>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               {productIndex}
                             </td>{" "}
                             {/* Hiển thị số thứ tự */}
-                            <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               <Link to={`product/update/${product.id}`}>
                                 {truncateProductName(product.name)}{" "}
                                 {/* Sử dụng hàm cắt tên sản phẩm */}
                               </Link>
                             </td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               {product.price}
                             </td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               {product.originalPrice}
                             </td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               {product.discount}
                             </td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               {product.category}
                             </td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               {truncateProductDescription(product.description)}{" "}
                               {/* Sử dụng hàm cắt mô tả sản phẩm */}
                             </td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                               <img
                                 className="w-[100px]  rounded-lg"
                                 src={product.image}
                                 alt=""
                               />
                             </td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <td className="whitespace-nowrap text-gray-700 px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             
                             <Link  to={`product/update/${product.id}`}>
                               <button className="bg-blue-600 mr-1 text-white rounded-md p-2">

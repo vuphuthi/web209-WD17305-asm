@@ -64,7 +64,7 @@ const AddProduct = () => {
     if (!productData.image) {
       errors.image = "Vui lòng nhập đường dẫn ảnh sản phẩm";
     }
-    if (!productData.category ==="no") {
+    if (!productData.category) {
       errors.category = "Vui lòng nhập danh mục sản phẩm";
     }
 
@@ -80,6 +80,8 @@ const AddProduct = () => {
   .then(() => {
     // Thêm thành công, chuyển hướng sang trang admin (ví dụ là "/admin")
     window.location.href = "/admin";
+    alert("Thêm sản phẩm thành công")
+
   })
   .catch((error:any) => {
     // Xử lý lỗi nếu cần thiết
@@ -213,9 +215,10 @@ const AddProduct = () => {
 
           <div className="form-group">
             <label htmlFor="category" className="block mt-3 font-semibold text-gray-700">
-              Danh mục:
+              Danh mục loại
             </label>
-            <select
+            <input
+              type="text"
               id="category"
               name="category"
               value={productData.category}
@@ -223,98 +226,12 @@ const AddProduct = () => {
               className={`w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm ${
                 errors.category && submitted ? "border-red-500" : ""
               }`}
-            >
-              <option value="">Chọn danh mục sản phẩm</option>
-              <option value="danh_muc_1">Danh mục 1</option>
-              <option value="danh_muc_2">Danh mục 2</option>
-              {/* Thêm các danh mục khác vào đây */}
-            </select>
+              placeholder="Nhập loại sản phẩm"
+            />
             {errors.category && submitted && (
               <p className="text-red-500 text-sm mt-1">{errors.category}</p>
             )}
           </div>
-
-          {/* Thêm các trường thông tin sản phẩm khác ở đây */}
-          {/* <div className="form-group">
-            <label htmlFor="weight" className="block mt-3 font-semibold text-gray-700">
-              Trọng lượng:
-            </label>
-            <input
-              type="text"
-              id="weight"
-              name="weight"
-              value={productData.weight}
-              onChange={handleChange}
-              className={`w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm ${
-                errors.weight && submitted ? "border-red-500" : ""
-              }`}
-              placeholder="Nhập trọng lượng sản phẩm"
-            />
-            {errors.weight && submitted && (
-              <p className="text-red-500 text-sm mt-1">{errors.weight}</p>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="brand" className="block mt-3 font-semibold text-gray-700">
-              Thương hiệu:
-            </label>
-            <input
-              type="text"
-              id="brand"
-              name="brand"
-              value={productData.brand}
-              onChange={handleChange}
-              className={`w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm ${
-                errors.brand && submitted ? "border-red-500" : ""
-              }`}
-              placeholder="Nhập thương hiệu sản phẩm"
-            />
-            {errors.brand && submitted && (
-              <p className="text-red-500 text-sm mt-1">{errors.brand}</p>
-            )}
-          </div> */}
-
-          {/* <div className="form-group">
-            <label htmlFor="color" className="block mt-3 font-semibold text-gray-700">
-              Màu sắc:
-            </label>
-            <input
-              type="text"
-              id="color"
-              name="color"
-              value={productData.color}
-              onChange={handleChange}
-              className={`w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm ${
-                errors.color && submitted ? "border-red-500" : ""
-              }`}
-              placeholder="Nhập màu sắc sản phẩm"
-            />
-            {errors.color && submitted && (
-              <p className="text-red-500 text-sm mt-1">{errors.color}</p>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="size" className="block mt-3 font-semibold text-gray-700">
-              Kích thước:
-            </label>
-            <input
-              type="text"
-              id="size"
-              name="size"
-              value={productData.size}
-              onChange={handleChange}
-              className={`w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm ${
-                errors.size && submitted ? "border-red-500" : ""
-              }`}
-              placeholder="Nhập kích thước sản phẩm"
-            />
-            {errors.size && submitted && (
-              <p className="text-red-500 text-sm mt-1">{errors.size}</p>
-            )}
-          </div> */}
-
           <button
             type="button"
             onClick={handleAddProduct}
