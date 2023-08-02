@@ -6,25 +6,44 @@ import { add } from "@/slices/cart";
 import { IProduct } from "@/interfaces/product";
 import { addCommentToProduct, fetchCommentsByProductId } from "@/actions/comment";
 import { useSelector } from "react-redux";
+import { useLocalStorage } from "@/hook";
 
 const ProductDetailPage = () => {
   // const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
+  const [user] = useLocalStorage("user", null);
 
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState<IProduct[]>([]);
   //// comment
+  const [isCommentValid, setIsCommentValid] = useState(false);
 
   const id = Number(useParams<{ id: string }>().id);
   const comments = useSelector((state: any) => state.comment.commentsByProduct[id]);
   // const commentStatus = useSelector((state: any) => state.comment.status);
   const error = useSelector((state: any) => state.comment.error);
 
+
+
+  const lastName = user?.lastName
+  const userimage = user?.userimage
+  
   const handleAddComment = (comment: string) => {
-    if (comment.trim() !== "") {
-      dispatch(addCommentToProduct({ id, comment }));
+
+    if (user) {
+
+      if (comment.trim() !== "") {
+        // Lấy tên người dùng từ localStorage nếu đã đăng nhập
+        dispatch(addCommentToProduct({ id, comment, lastName ,userimage}));
+        setIsCommentValid(true);
+      } else {
+        setIsCommentValid(false);
+      }
+    } else {
+      setIsCommentValid(false);
     }
   };
+
 
   //// comment
 
@@ -54,7 +73,6 @@ const ProductDetailPage = () => {
       alert("Đã thêm sản phẩm vào giỏ hàng.");
     }
   };
-  console.log(allProducts);
   useEffect(() => {
     if (selectedProduct && allProducts) {
       // Lọc danh sách các sản phẩm liên quan dựa vào category của sản phẩm hiện tại
@@ -190,13 +208,18 @@ const ProductDetailPage = () => {
           </div>
         </div>
 
-        <div className="bg-blue-100 mt-[50px] p-6 rounded-lg shadow-lg">
+        <div className="bg-blue-100 mt-8 p-6 rounded-lg shadow-lg">
   <h2 className="text-3xl font-semibold mb-4">Bình luận</h2>
-
+  
+  
   {/* Hiển thị danh sách bình luận */}
   {Array.isArray(comments) && comments.length > 0 ? (
     comments.map((comment, index) => (
       <div key={index} className="bg-white p-4 rounded-lg shadow-md mb-4">
+        <div className="flex items-center mb-2">
+          <img className="w-12 h-12 object-cover rounded-full mr-4" src={comment.image} alt="Avatar" />
+          <p className="text-lg text-gray-800 font-semibold">{comment.username}</p>
+        </div>
         <p className="text-lg text-gray-800">{comment.content}</p>
       </div>
     ))
@@ -204,22 +227,42 @@ const ProductDetailPage = () => {
     <p className="text-gray-500">Không có bình luận.</p>
   )}
 
-  {/* Form để thêm bình luận */}
-  <form onSubmit={(e: any) => { e.preventDefault(); handleAddComment(e.target.comment.value) }} className="mt-4">
-    <input
-      type="text"
-      name="comment"
-      placeholder="Nhập bình luận..."
-      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600"
-    />
-    <button type="submit" className="mt-2 bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 transition-colors ">
-  Gửi
-</button>
-
-  </form>
-
-  {/*... (các phần code khác) */}
+  {user && (
+    <form onSubmit={(e) => { e.preventDefault(); handleAddComment(e.target.comment.value) }} className="mt-4">
+      <input
+        type="text"
+        name="comment"
+        placeholder="Nhập bình luận..."
+        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600"
+      />
+      <button type="submit" className="mt-2 bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 transition-colors">
+        Gửi
+      </button>
+    </form>
+  )}
+  {!user ? (
+    <div className="mt-4 bg-red-100 p-4 rounded-lg mb-4">
+    <span className="text-red-700">
+      Bạn cần <Link to="/signin" className="text-indigo-600 hover:underline">Đăng nhập </Link> để sử dụng chức năng bình luận
+    </span>
+  </div>
+  ) : (
+    <div className="mt-3">
+{isCommentValid ? (
+            <div className="bg-green-100 p-4 rounded-lg mb-4">
+              <p className="text-green-700">Bình luận đã được đăng thành công.</p>
+            </div>
+          ) : (
+            isCommentValid === false && (
+              <div className="bg-red-100 p-4 rounded-lg mb-4">
+                <p className="text-red-700">Vui lòng nhập nội dung bình luận.</p>
+              </div>
+            )
+          )}
+    </div>
+  ) }
 </div>
+
 
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4">Sản phẩm liên quan</h2>

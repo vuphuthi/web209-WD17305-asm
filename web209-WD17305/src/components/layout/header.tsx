@@ -22,6 +22,7 @@ const Header = () => {
 
     // Sau khi đăng xuất, xóa thông tin người dùng từ Local Storage
     setUser(null);
+    window.location.reload();
   };
   return (
     <div>

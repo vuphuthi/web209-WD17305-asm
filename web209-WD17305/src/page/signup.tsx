@@ -144,6 +144,7 @@ const SignUp = () => {
           </p>
         </div>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
+          <h2 className='text-center text-lime-400 text-[70px]'>Đăng ký</h2>
         <div>
           <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
             Tên đệm

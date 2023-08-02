@@ -14,6 +14,7 @@ const AddProduct = () => {
     discount: "",
     image: "",
     category: "",
+    comments: []
   });
 
   // State để lưu trữ thông báo lỗi
@@ -25,6 +26,7 @@ const AddProduct = () => {
     discount: "",
     image: "",
     category: "",
+    comments: [],
   });
 
   // State để lưu trữ trạng thái xem đã bấm nút Thêm hay chưa
@@ -208,9 +210,7 @@ const AddProduct = () => {
               }`}
               placeholder="Nhập đường dẫn ảnh sản phẩm"
             />
-            {errors.image && submitted && (
-              <p className="text-red-500 text-sm mt-1">{errors.image}</p>
-            )}
+            
           </div>
 
           <div className="form-group">

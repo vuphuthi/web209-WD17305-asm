@@ -40,19 +40,41 @@ export const fetchCommentsByProductId = createAsyncThunk<
 //     return error.map((error: any) => (error.message));
 //   }
 // });
+// export const addCommentToProduct = createAsyncThunk<
+//   { id: number; comment: Comment },
+//   { id: number; comment: string }
+// >("comment/addCommentToProduct", async ({ id, comment }) => {
+//   try {
+//     // Gửi yêu cầu HTTP POST để thêm bình luận vào sản phẩm
+//     const response = await axios.post(`http://localhost:3001/products/${id}`, {
+//       content: comment,
+//     });
+//     const newComment = response.data;
+
+//     return { id, comment: newComment };
+//   } catch (error) {
+//     throw new Error("Failed to add comment.");
+//   }
+// });
 export const addCommentToProduct = createAsyncThunk<
   { id: number; comment: Comment },
-  { id: number; comment: string }
->("comment/addCommentToProduct", async ({ id, comment }) => {
-  try {
-    // Gửi yêu cầu HTTP POST để thêm bình luận vào sản phẩm
-    const response = await axios.post(`http://localhost:3001/products/${id}`, {
-      content: comment,
-    });
-    const newComment = response.data;
+  { id: number; comment: string; lastName: string ; userimage:string} // Thêm trường name vào tham số
+>(
+  "comment/addCommentToProduct",
+  async ({ id, comment, lastName ,userimage}, { rejectWithValue }) => {
+    try {
+      // Gửi yêu cầu HTTP POST để thêm bình luận vào sản phẩm
+      const response = await axios.post(`http://localhost:3001/products/${id}`, {
+        content: comment,
+        username:lastName,
+        image:userimage // Truyền tên người dùng vào yêu cầu
+      });
+      const newComment = response.data;
 
-    return { id, comment: newComment };
-  } catch (error) {
-    throw new Error("Failed to add comment.");
+      return { id, comment: newComment };
+    } catch (error) {
+      return rejectWithValue("Failed to add comment."); // Trả về lỗi bằng rejectWithValue
+    }
   }
-});
+);
+

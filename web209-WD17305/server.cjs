@@ -54,6 +54,8 @@ fs.access(DB_PATH, fs.constants.F_OK, (err) => {
 app.post('/products/:id', function(req, res) {
   const productId = parseInt(req.params.id);
   const commentContent = req.body.content;
+  const commentUsername = req.body.username;
+  const commentImage = req.body.image;
 
   const product = db.products.find(function(item) {
     return item.id === productId;
@@ -65,7 +67,9 @@ app.post('/products/:id', function(req, res) {
 
   const newComment = {
     id: product.comments.length + 1,
-    content: commentContent
+    content: commentContent,
+    username: commentUsername,
+    image: commentImage,
   };
 
   product.comments.push(newComment);
