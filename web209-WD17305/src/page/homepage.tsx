@@ -11,6 +11,12 @@ const truncateDescription = (description: string, maxLength: number) => {
   }
   return description;
 };
+const truncateName = (name: string, maxLength: number) => {
+  if (name.length > maxLength) {
+    return name.substring(0, maxLength) + '...';
+  }
+  return name;
+};
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
@@ -45,10 +51,12 @@ const HomePage = () => {
           />
           <div className="p-4">
             <h2 className="mb-2 text-lg font-medium dark:text-white text-gray-900">
-              {product.name}
+            {truncateName(product.name, 60)}
             </h2>
             <p className="mb-2 text-base dark:text-gray-300 text-gray-700">
               {truncateDescription(product.description, 70)}
+              {/* {product.description.substring(0, 40)} */}
+              
             </p>
             <div className="flex items-center">
               <p className="mr-2 text-lg font-semibold text-gray-900 dark:text-white">

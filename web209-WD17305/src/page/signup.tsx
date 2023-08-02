@@ -1,10 +1,9 @@
 import { registerUser } from '@/actions/auth';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 const SignUp = () => {
   const dispatch = useDispatch();
-  const { loading, error, user } = useSelector((state:any) => state.auth);
+  const { loading, user } = useSelector((state:any) => state.auth);
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -36,7 +35,7 @@ const SignUp = () => {
     
 
     // Kiểm tra tính hợp lệ của mật khẩu trước khi đăng ký
-    
+
     
     if (formData.firstName == "") {
       // Hiển thị thông báo lỗi trong giao diện

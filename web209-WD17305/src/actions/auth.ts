@@ -1,23 +1,23 @@
-import {  signin, signup } from "@/api/auth";
 import {  saveTokenToLocalStorage } from "@/localStorageUtils";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-export const loginUser = createAsyncThunk('auth/loginUser', async (userData) => {
+export const loginUser = createAsyncThunk('auth/loginUser', async (formData) => {
   try {
-    const { data } = await signin(userData);
+    const { data } =await axios.post(`http://localhost:3001/signin`,formData);
 
     // Lưu token vào Local Storage
-    saveTokenToLocalStorage(data.accessToken);
-    localStorage.setItem('username', data.user.email);
-    return data;
-  } catch (error:any) {
-    return error.message;
+    saveTokenToLocalStorage(data.token);
+
+    return data.user; // Trả về thông tin người dùng sau khi đăng nhập thành công
+  } catch (error) {
+    throw new Error('Đăng nhập thất bại. Kiểm tra email và mật khẩu.');
   }
 });
-  // Tạo action async thunk để đăng ký
+
   export const registerUser = createAsyncThunk('auth/registerUser', async (formData) => {
     try {
-        const { data } = await signup(formData)
+        const { data } = await axios.post(`http://localhost:3001/signup`,formData)
         return data
     } catch (error:any) {
     //   throw new Error('Có lỗi xảy ra khi đăng ký.');

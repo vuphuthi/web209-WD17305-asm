@@ -9,6 +9,13 @@ const authSlice = createSlice({
     token: null,
   } as any,
   reducers: {
+    loginSuccess: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+      // Không cần cập nhật token ở đây vì bạn đã lưu token vào Local Storage trong async thunk của bạn.
+      // Trong Redux Toolkit, việc cập nhật token sẽ được thực hiện bằng cách trực tiếp thay đổi trạng thái `token` trong initialState.
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -32,7 +39,8 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload; // Lưu thông tin người dùng đăng ký thành công vào state
+        state.user = action.payload;
+         // Lưu thông tin người dùng đăng ký thành công vào state
         state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
@@ -43,4 +51,5 @@ const authSlice = createSlice({
   },
 });
 // export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
+export const { loginSuccess } = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;

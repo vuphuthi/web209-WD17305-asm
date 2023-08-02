@@ -5,43 +5,6 @@ export interface Comment {
     content: string;
     // Các thuộc tính khác của Comment
   }
-// Thunk để fetch comments dựa vào productId
-// export const fetchCommentsByProductId = createAsyncThunk<
-//   { id: number; comments: Comment[] },
-//   number
-// >("comment/fetchCommentsByProductId", async (id) => {
-//   try {
-//     const response = await axios.get(`http://localhost:3000/products/${id}`);
-//     const productData = response.data;
-
-//     if (productData && productData.comments) {
-//       return { id, comments: productData.comments };
-//     } else {
-//       // Trường hợp không có bình luận, trả về một mảng rỗng
-//       return { id, comments: [] };
-//     }
-//   } catch (error) {
-//     throw new Error("Failed to fetch comments.");
-//   }
-// });
-
-// export const addCommentToProduct = createAsyncThunk<
-//   { id: number; comment: Comment },
-//   { id: number; comment: string }
-// >("comment/addCommentToProduct", async ({ id, comment }) => {
-//   try {
-//     const response = await axios.post(
-//       `http://localhost:3000/products/${id}/comments`,
-//       {
-//         content: comment,
-//       }
-//     );
-
-//     return { id, comment: response.data };
-//   } catch (error) {
-//     throw new Error("Failed to add comment.");
-//   }
-// });
 export const fetchCommentsByProductId = createAsyncThunk<
   { id: number; comments: Comment[] },
   number

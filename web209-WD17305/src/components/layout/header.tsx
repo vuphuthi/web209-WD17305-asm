@@ -1,3 +1,4 @@
+import { useLocalStorage } from "@/hook";
 import { useAppSelector } from "@/store/hook";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -6,7 +7,7 @@ const Header = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
   const [cartItemCount, setCartItemCount] = useState(0);
   const [cartTotalAmount, setCartTotalAmount] = useState(0);
-
+  const [user,setUser] = useLocalStorage('user', null)
   useEffect(() => {
     // Tính tổng số lượng sản phẩm trong giỏ hàng từ danh sách cartItems
     const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -16,10 +17,20 @@ const Header = () => {
     const totalAmount = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     setCartTotalAmount(totalAmount);
   }, [cartItems]);
+  const handleLogout = () => {
+    // Xử lý logic đăng xuất ở đây
 
+    // Sau khi đăng xuất, xóa thông tin người dùng từ Local Storage
+    setUser(null);
+  };
   return (
     <div>
       <header className="bg-white">
+      {user && user.firstName && user.lastName && (
+  <div className="ml-2 lg:ml-4 relative pl-[80px] mt-2 inline-block">
+    <span className="text-gray-500 text-lg">Chào mừng, {user.firstName} {user.lastName}!</span>
+  </div>
+)}
         <div className="container mx-auto px-4 py-8 flex items-center">
           {/* Logo */}
           <div className="mr-auto md:w-48 flex-shrink-0">
@@ -42,7 +53,9 @@ const Header = () => {
             <span className="font-bold md:text-xl">0356277440</span>
             <span className="font-semibold text-sm text-gray-400">Hỗ trợ 24/7</span>
           </div>
-
+      <div>
+      
+      </div>
           {/* Buttons */}
           <nav className="contents">
             <ul className="ml-4 xl:w-48 flex items-center justify-end">
@@ -52,9 +65,23 @@ const Header = () => {
                   <svg className="h-9 lg:h-10 p-2 text-gray-500 svg-inline--fa fa-user fa-w-14 fa-9x" aria-hidden="true" focusable="false" data-prefix="far" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" >
                     <path fill="currentColor" d="M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z"></path>
                   </svg>
+                  
                 </a>
               </li>
+              {user ? (
+        <button onClick={handleLogout}>Đăng xuất</button>
+      ) : (
+        <div>
+      <Link to="signin" className="rounded">
+        Đăng nhập
+      </Link>
+      <br />
 
+      <Link to="signup" className=" rounded">
+        Đăng ký
+      </Link>
+    </div>
+      )}
 
               {/* Shopping cart icon */}
               <li className="ml-2 lg:ml-4 relative inline-block">
@@ -67,6 +94,7 @@ const Header = () => {
                   </svg>
                 </Link>
               </li>
+              
             </ul>
           </nav>
 

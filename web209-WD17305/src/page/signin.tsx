@@ -1,43 +1,37 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../actions/auth';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useLocalStorage } from '@/hook';
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);
   const { handleSubmit, register, formState: { errors } } = useForm();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const [user, setUser] = useLocalStorage("user", null)
   const [loginError, setLoginError] = useState('');
-
-  const onSubmit = async (formData) => {
-    try {
-      dispatch(loginUser(formData));
-      // Chuyển hướng sau khi đăng nhập thành công
-      // alert("Đăng nhập thành công");
-      // setTimeout(() => {
-      //   navigate('/');
-      // }, 1000); // Chờ 1 giây trước khi chuyển hướng
-    } catch (error) {
-      if (error.message === 'Unauthorized') {
-        setLoginError('Email hoặc mật khẩu không chính xác');
-      } else {
-        setLoginError('Đã xảy ra lỗi khi đăng nhập');
-      }
-    }
-  };
-
-  const validate = (formData) => {
-    const errors = {};
-    if (!formData.email) {
-      errors.email = 'Vui lòng nhập email';
-    }
-    if (!formData.password) {
-      errors.password = 'Vui lòng nhập mật khẩu';
-    }
-    return errors;
-  };
+ const { loading, error } = useSelector((state: any) => state.auth);
+ const onSubmit = async (formData:any) => {
+  try {
+    // const { data } = await axios.post('http://localhost:3001/signin', formData);
+    const {data: {accessToken, user}} =await axios.post('http://localhost:3001/signin', formData);
+    setUser({
+      accessToken,
+      ...user
+  })
+    
+    // saveTokenToLocalStorage(data.token); // Lưu token vào Local Storage
+    // dispatch(loginSuccess(data.user)); // Cập nhật thông tin người dùng vào Redux store
+    // Hiển thị thông báo đăng nhập thành công và tên người đăng nhập
+    // alert(`Đăng nhập thành công! Chào mừng ${data.user.firstName} ${data.user.lastName}!`);
+    // Điều hướng đến trang sau khi đăng nhập thành công (nếu cần)
+  } catch (error) {
+    setLoginError('Đăng nhập thất bại. Kiểm tra email và mật khẩu.');
+  }
+};
+  
+  
+  
 
   return (
     <div>
@@ -82,6 +76,7 @@ const SignIn = () => {
           <main
             className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
           >
+            
             <div className="max-w-xl lg:max-w-3xl">
               <div className="relative -mt-16 block lg:hidden">
                 {/* Mã HTML cho phần này */}
@@ -137,6 +132,14 @@ const SignIn = () => {
                 </button>
                 {loginError && <p className="text-red-600">{loginError}</p>}
                 {error && <p className="mt-2 text-red-600">{error}</p>}
+                
+                {user && (
+        <div className="text-green-500">
+          <p>
+            Đăng nhập thành công! Chào mừng {user.firstName} {user.lastName}!
+          </p>
+        </div>
+      )}
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   Bạn chưa có tài khoản?
                   <a href="signup" className="text-gray-700 underline"> Đăng ký</a>.

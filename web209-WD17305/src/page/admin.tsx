@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { deleteProduct, getProducts } from "@/actions/product";
 import { IProduct } from "@/interfaces/product";
+import { useLocalStorage } from "@/hook";
 
 const Admin = () => {
   const dispatch = useDispatch();
   const { products } = useSelector((state: any) => state.product);
-
+  const [user,setUser] = useLocalStorage('user', null)
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
@@ -120,7 +121,13 @@ const Admin = () => {
               <span className="">Máy tính bảng</span>
             </a>
           </div>
+          {user && user.firstName && user.lastName && (
+  <div className="ml-2 lg:ml-4 relative inline-block mt-[630px]">
+    <span className="text-gray-500 text-lg">Chào mừng, {user.firstName} {user.lastName}!</span>
+  </div>
+)}
         </div>
+        
         <div className="antialiased font-sans bg-gray-200 h-full w-screen flex flex-row">
           <div className="container mx-auto px-4 sm:px-8">
             <div className="py-8">
