@@ -12,6 +12,12 @@ import { useSelector } from "react-redux";
 import { useLocalStorage } from "@/hook";
 
 const ProductDetailPage = () => {
+  const truncateName = (name: string, maxLength: number) => {
+    if (name.length > maxLength) {
+      return name.substring(0, maxLength) + '...';
+    }
+    return name;
+  };
   // const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const [user] = useLocalStorage("user", null);
@@ -19,8 +25,10 @@ const ProductDetailPage = () => {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
   const [relatedProducts, setRelatedProducts] = useState<IProduct[]>([]);
   //// comment
-  const [isCommentValid, setIsCommentValid] = useState(false);
 
+
+  const [isCommentValid, setIsCommentValid] = useState(false);
+  const [showCommentValidation, setShowCommentValidation] = useState(false);
   /// size
   const [selectedSize, setSelectedSize] = useState<string>(""); // Giá trị mặc định ban đầu cho kích cỡ
 
@@ -35,6 +43,10 @@ const ProductDetailPage = () => {
   // const commentStatus = useSelector((state: any) => state.comment.status);
   const error = useSelector((state: any) => state.comment.error);
 
+
+  /// phan trang comment
+
+
   /// quantity
   const [selectedProductQuantity, setSelectedProductQuantity] = useState(1);
   const [sizeQuantities, setSizeQuantities] = useState<
@@ -44,14 +56,19 @@ const ProductDetailPage = () => {
   const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSizeValue = event.target.value;
     setSelectedSize(selectedSizeValue);
-
+  
+    // Tạo một bản sao của mảng selectedProduct.sizes
+    const updatedSizes = selectedProduct?.sizes.slice();
+  
     // Tìm số lượng tương ứng với size đã chọn
-    const selectedSizeQuantity =
-      selectedProduct?.sizes.find((size) => size.size === selectedSizeValue)
-        ?.quantity || 0;
+    const selectedSizeQuantity = updatedSizes.find(
+      (size: any) => size.size === selectedSizeValue
+    )?.quantity || 0;
+  
     setSelectedProductQuantity(1); // Mỗi khi kích cỡ thay đổi, reset số lượng sản phẩm đã chọn về 1
-    setSizeQuantities(selectedProduct?.sizes || []); // Cập nhật danh sách size và số lượng tương ứng
+    setSizeQuantities(updatedSizes); // Cập nhật danh sách size và số lượng tương ứng
   };
+  
 
   const handleQuantityChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -61,7 +78,7 @@ const ProductDetailPage = () => {
 
   const getProductQuantityOptions = () => {
     const maxQuantity =
-      selectedProduct?.sizes?.find((size) => size.size === selectedSize)
+      selectedProduct?.sizes?.find((size: any) => size.size === selectedSize)
         ?.quantity || 0;
 
     return Array.from({ length: maxQuantity }, (_, index) => index + 1);
@@ -71,18 +88,56 @@ const ProductDetailPage = () => {
   const lastName = user?.lastName;
   const userimage = user?.userimage;
 
+  const [commentInput, setCommentInput] = useState('');
+
   const handleAddComment = (comment: string) => {
     if (user) {
       if (comment.trim() !== "") {
+        const currentDateTime = getCurrentDateTime();
         // Lấy tên người dùng từ localStorage nếu đã đăng nhập
-        dispatch(addCommentToProduct({ id, comment, lastName, userimage }));
+        dispatch(addCommentToProduct({ id, comment, lastName, userimage, timestamp: currentDateTime, }));
         setIsCommentValid(true);
+        setCommentInput('');
       } else {
+        // Đặt trạng thái validate về true để hiển thị thông báo lỗi
         setIsCommentValid(false);
       }
+      // Đặt biến state showCommentValidation về true để hiển thị trạng thái validate khi người dùng click vào nút "Gửi"
+      setShowCommentValidation(true);
     } else {
-      setIsCommentValid(false);
+      // Đặt biến state showCommentValidation về true để hiển thị trạng thái validate khi người dùng click vào nút "Gửi"
+      setShowCommentValidation(true);
     }
+  };
+  const ITEMS_PER_PAGE = 4; // Số lượng bình luận hiển thị trên mỗi trang
+
+const sortedComments = comments?.slice().sort((a: any, b: any) => {
+  const dateA = new Date(a.timestamp);
+  const dateB = new Date(b.timestamp);
+  return dateA - dateB;
+});
+  const [currentPage, setCurrentPage] = useState(1);
+  useEffect(() => {
+    // Lấy giá trị currentPage từ localStorage nếu có
+    const storedPage = localStorage.getItem("currentPage");
+    if (storedPage) {
+      setCurrentPage(parseInt(storedPage));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Lưu giá trị currentPage vào localStorage mỗi khi currentPage thay đổi
+    localStorage.setItem("currentPage", currentPage.toString());
+  }, [currentPage]);
+
+  const totalComments = sortedComments?.length || 0;
+  const totalPages = Math.ceil(totalComments / ITEMS_PER_PAGE);
+  const indexOfLastComment = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstComment = indexOfLastComment - ITEMS_PER_PAGE;
+  const currentComments = sortedComments?.slice(indexOfFirstComment, indexOfLastComment);
+
+  const handlePageChange = (pageNumber: any) => {
+    setCurrentPage(pageNumber);
   };
 
   //// comment
@@ -117,7 +172,7 @@ const ProductDetailPage = () => {
     } else {
       // Hiển thị thông báo lỗi nếu người dùng chưa chọn kích cỡ
       alert("Vui lòng chọn kích cỡ sản phẩm trước khi thêm vào giỏ hàng.");
-      
+
     }
   };
   useEffect(() => {
@@ -294,64 +349,105 @@ const ProductDetailPage = () => {
         </div>
 
         <div className="bg-transparent mt-8 p-6 rounded-lg shadow-lg">
-  <h2 className="text-3xl font-semibold mb-4">Bình luận</h2>
+          <h2 className="text-3xl font-semibold mb-4">Bình luận</h2>
 
-  {/* Hiển thị danh sách bình luận */}
-  {Array.isArray(comments) && comments.length > 0 ? (
-    comments.map((comment, index) => (
-      <div key={index} className="bg-white p-4 rounded-lg shadow-md mb-4">
-        <div className="flex items-center mb-4">
-          <img className="w-10 h-10 object-cover rounded-full mr-4" src={comment.image} alt="Avatar" />
-          <div>
-            <p className="text-lg text-gray-800 font-semibold">{comment.username}</p>
-            <p className="text-sm text-gray-500">{getCurrentDateTime()}</p>
+          {user && (
+            <div className="flex items-center mb-4">
+              <div className="relative">
+                <img
+                  className="w-10 h-10 object-cover rounded-full transition duration-300 transform hover:scale-110 cursor-pointer"
+                  src={user.userimage}
+                  alt="Avatar"
+                />
+                <div className="absolute bottom-0 right-0 p-1 bg-indigo-600 rounded-full">
+                  <svg
+                    className="w-3 h-3 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1.293-3.293a1 1 0 011.414-1.414 3 3 0 104.243-4.243 1 1 0 011.414-1.414 5 5 0 11-7.071 7.071z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <p className="text-lg text-gray-800 font-semibold">{user.lastName}</p>
+              </div>
+            </div>
+          )}
+          {/* Hiển thị danh sách bình luận */}
+          {Array.isArray(currentComments) && currentComments.length > 0 ? (
+            currentComments.map((comment, index) => (
+              <div key={index} className="bg-white p-4 rounded-lg shadow-md mb-4">
+                <div className="flex items-center mb-4">
+                  <img className="w-10 h-10 object-cover rounded-full mr-4" src={comment.image} alt="Avatar" />
+                  <div>
+                    <p className="text-lg text-gray-800 font-semibold">{comment.username}</p>
+                    <p className="text-sm text-gray-500">{comment.date}</p>
+                  </div>
+                </div>
+                <p className="text-lg text-gray-800">{comment.content}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">Không có bình luận.</p>
+          )}
+          <div className="flex items-center justify-center mt-4">
+            {Array.from({ length: totalPages }, (_, index) => index + 1).map((pageNumber) => (
+              <button
+                key={pageNumber}
+                onClick={() => handlePageChange(pageNumber)}
+                className={`mx-1 px-3 py-1 rounded-lg ${currentPage === pageNumber ? 'bg-indigo-600 text-white' : 'bg-white text-indigo-600'
+                  }`}
+              >
+                {pageNumber}
+              </button>
+            ))}
           </div>
+          {/* Form bình luận */}
+          {user && (
+            <form onSubmit={(e) => { e.preventDefault(); handleAddComment(commentInput) }} className="mt-4 flex items-center border border-gray-300 rounded-lg">
+              <input
+                type="text"
+                name="comment"
+                value={commentInput}
+                onChange={(e) => setCommentInput(e.target.value)}
+                placeholder="Nhập bình luận..."
+                className="w-full p-3 focus:outline-none"
+              />
+              <button type="submit" className="bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 focus:outline-none transition-colors">
+                Gửi
+              </button>
+            </form>
+          )}
+
+          {/* Hiển thị thông báo yêu cầu đăng nhập nếu chưa đăng nhập */}
+          {!user ? (
+            <div className="mt-4 bg-red-100 p-4 rounded-lg mb-4">
+              <span className="text-red-700">
+                Bạn cần <Link to="/signin" className="text-indigo-600 hover:underline">Đăng nhập</Link> để sử dụng chức năng bình luận
+              </span>
+            </div>
+          ) : (
+            <div className="mt-3">
+              {isCommentValid && showCommentValidation && (
+                <div className="bg-green-100 p-4 rounded-lg mb-4">
+                  <p className="text-green-700">Bình luận đã được đăng thành công.</p>
+                </div>
+              )}
+              {isCommentValid === false && showCommentValidation && (
+                <div className="bg-red-100 p-4 rounded-lg mb-4">
+                  <p className="text-red-700">Vui lòng nhập nội dung bình luận.</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-        <p className="text-lg text-gray-800">{comment.content}</p>
-      </div>
-    ))
-  ) : (
-    <p className="text-gray-500">Không có bình luận.</p>
-  )}
-
-  {user && (
-    <form onSubmit={(e) => { e.preventDefault(); handleAddComment(e.target.comment.value) }} className="mt-4 flex items-center border border-gray-300 rounded-lg">
-      <input
-        type="text"
-        name="comment"
-        placeholder="Nhập bình luận..."
-        className="w-full p-3 focus:outline-none"
-      />
-      <button type="submit" className="bg-indigo-600 text-white py-3 px-6 rounded-lg hover:bg-indigo-700 focus:outline-none transition-colors">
-        Gửi
-      </button>
-    </form>
-  )}
-  {!user ? (
-    <div className="mt-4 bg-red-100 p-4 rounded-lg mb-4">
-      <span className="text-red-700">
-        Bạn cần <Link to="/signin" className="text-indigo-600 hover:underline">Đăng nhập </Link> để sử dụng chức năng bình luận
-      </span>
-    </div>
-  ) : (
-    <div className="mt-3">
-      {isCommentValid ? (
-        <div className="bg-green-100 p-4 rounded-lg mb-4">
-          <p className="text-green-700">Bình luận đã được đăng thành công.</p>
-        </div>
-      ) : (
-        isCommentValid === false && (
-          <div className="bg-red-100 p-4 rounded-lg mb-4">
-            <p className="text-red-700">Vui lòng nhập nội dung bình luận.</p>
-          </div>
-        )
-      )}
-    </div>
-  )}
-</div>
-
-
-        <div className="mt-8">
+        <div className="mt-8 pb-5">
           <h2 className="text-2xl font-bold mb-4">Sản phẩm liên quan</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {relatedProducts.map((product) => (
@@ -364,8 +460,8 @@ const ProductDetailPage = () => {
                   alt={"Related Image" + product.id}
                   className="w-full h-40 object-cover mb-4 rounded-lg"
                 />
-                <h3 className="text-gray-800 font-semibold text-lg">
-                  {product.name}
+                <h3 className="mb-2 text-lg font-medium dark:text-white text-gray-900">
+                  {truncateName(product.name, 50)}
                 </h3>
                 <p className="text-gray-500 text-sm">
                   Loại{" "}

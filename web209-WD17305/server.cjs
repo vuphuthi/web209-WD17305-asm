@@ -56,6 +56,7 @@ app.post('/products/:id', function(req, res) {
   const commentContent = req.body.content;
   const commentUsername = req.body.username;
   const commentImage = req.body.image;
+  const commentDate = req.body.date;
 
   const product = db.products.find(function(item) {
     return item.id === productId;
@@ -70,6 +71,7 @@ app.post('/products/:id', function(req, res) {
     content: commentContent,
     username: commentUsername,
     image: commentImage,
+    date:commentDate
   };
 
   product.comments.push(newComment);

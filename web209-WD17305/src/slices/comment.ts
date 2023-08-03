@@ -4,9 +4,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 export interface Comment {
-    id: number;
-    content: string;
-  }
+  id: number;
+  content: string;
+  timestamp: string; // Thời gian bình luận dạng chuỗi (string)
+}
   interface CommentState {
     commentsByProduct: { [id: number]: Comment[] };
     status: "idle" | "loading" | "failed";
@@ -43,13 +44,15 @@ const commentSlice = createSlice({
       state.status = "loading";
       state.error = null;
     })
+    
     .addCase(addCommentToProduct.fulfilled, (state, action) => {
       const { id, comment } = action.payload;
       const productComments = state.commentsByProduct[id];
 
       // Kiểm tra nếu sản phẩm có bình luận rồi thì cập nhật vào mảng bình luận của sản phẩm
       if (productComments) {
-        productComments.push(comment);
+        // Thêm bình luận mới vào đầu mảng bình luận
+        state.commentsByProduct[id] = [comment, ...productComments];
       } else {
         // Nếu sản phẩm chưa có bình luận thì tạo một mảng mới và thêm bình luận vào
         state.commentsByProduct[id] = [comment];

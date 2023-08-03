@@ -58,16 +58,18 @@ export const fetchCommentsByProductId = createAsyncThunk<
 // });
 export const addCommentToProduct = createAsyncThunk<
   { id: number; comment: Comment },
-  { id: number; comment: string; lastName: string ; userimage:string} // Thêm trường name vào tham số
+  { id: number; comment: string; lastName: string ; userimage:string;timestamp:string} // Thêm trường name vào tham số
 >(
   "comment/addCommentToProduct",
-  async ({ id, comment, lastName ,userimage}, { rejectWithValue }) => {
+  async ({ id, comment, lastName ,userimage,timestamp}, { rejectWithValue }) => {
     try {
       // Gửi yêu cầu HTTP POST để thêm bình luận vào sản phẩm
       const response = await axios.post(`http://localhost:3001/products/${id}`, {
         content: comment,
         username:lastName,
-        image:userimage // Truyền tên người dùng vào yêu cầu
+        image:userimage,
+        date:timestamp // Truyền tên người dùng vào yêu cầu
+
       });
       const newComment = response.data;
 

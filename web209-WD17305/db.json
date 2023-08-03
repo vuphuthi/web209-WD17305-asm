@@ -22,114 +22,6 @@
                     "size": "L",
                     "quantity": 30
                 }
-            ],
-            "comments": [
-                {
-                    "id": 1,
-                    "content": "das",
-                    "username": "Vũ",
-                    "image": "thi ra la the"
-                },
-                {
-                    "id": 2,
-                    "content": "test them anh",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 3,
-                    "content": "san pham dep lam",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 4,
-                    "content": "nhu nay la nhu nao",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 5,
-                    "content": "san pham dep lam",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 6,
-                    "content": "đâs",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 7,
-                    "content": "xin chao san pham 564",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 8,
-                    "content": "hêllo",
-                    "username": "Vũ ada"
-                }
-            ]
-        },
-        {
-            "name": "laptopezadasdasdad",
-            "description": "may chay khoe",
-            "price": "333",
-            "originalPrice": "3332323",
-            "discount": "103",
-            "image": "https://cdn.tgdd.vn/Files/2022/08/12/1455692/co-nen-mua-may-tinh-de-ban-cu-khong-kinh-nghiem-c-15.jpg",
-            "category": "may tinh",
-            "id": 5336,
-            "comments": [
-                {
-                    "id": 1,
-                    "content": "dadas",
-                    "username": "Vũ"
-                },
-                {
-                    "id": 2,
-                    "content": "san pham dep lam",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 3,
-                    "content": "san pham nay ban nhu nao",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 4,
-                    "content": "san pham dep lam",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 5,
-                    "content": "ban size bao nhieu",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 6,
-                    "content": "xin chao san pham 564",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 7,
-                    "content": "san pham dep lam",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                },
-                {
-                    "id": 8,
-                    "content": "san pham dep lam",
-                    "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
-                }
             ]
         },
         {
@@ -144,12 +36,44 @@
                 {
                     "id": 1,
                     "content": "san pham dep lam",
-                    "username": "Vũ"
+                    "username": "Vũ",
+                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg",
+                    "date": "lúc 22:15:53 3 tháng 8, 2023"
                 },
                 {
                     "id": 2,
-                    "content": "xin chao san pham 564",
-                    "username": "Vũ"
+                    "content": "san pham 2'",
+                    "username": "Vũ",
+                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg",
+                    "date": "lúc 22:15:59 3 tháng 8, 2023"
+                },
+                {
+                    "id": 3,
+                    "content": "san pham dep lam",
+                    "username": "Vũ",
+                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg",
+                    "date": "lúc 22:16:05 3 tháng 8, 2023"
+                },
+                {
+                    "id": 4,
+                    "content": "san pham 2",
+                    "username": "Vũ",
+                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg",
+                    "date": "lúc 22:16:12 3 tháng 8, 2023"
+                },
+                {
+                    "id": 5,
+                    "content": "32",
+                    "username": "Vũ",
+                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg",
+                    "date": "lúc 22:16:15 3 tháng 8, 2023"
+                },
+                {
+                    "id": 6,
+                    "content": "san pham dep lam",
+                    "username": "Vũ",
+                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg",
+                    "date": "lúc 22:19:37 3 tháng 8, 2023"
                 }
             ],
             "id": 5337
@@ -165,9 +89,17 @@
             "comments": [
                 {
                     "id": 1,
-                    "content": "xin chao san pham 564",
+                    "content": "dấdsa",
                     "username": "Vũ",
-                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg"
+                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg",
+                    "date": "lúc 22:19:55 3 tháng 8, 2023"
+                },
+                {
+                    "id": 2,
+                    "content": "2",
+                    "username": "Vũ",
+                    "image": "https://antimatter.vn/wp-content/uploads/2023/01/hinh-anh-avatar-dep-cute-ngau-601x600.jpg",
+                    "date": "lúc 22:19:57 3 tháng 8, 2023"
                 }
             ],
             "id": 5338
@@ -191,7 +123,7 @@
             "passwordConfirmation": "0000",
             "marketingAccept": false,
             "id": 2,
-            "token": "W0XP7Wj8L2ZOmGi7y67BDX57QArraRpa"
+            "token": "T0MFRZJWGzQFOeCfqud1BMS0BdLwJqUf"
         },
         {
             "firstName": "Test",
