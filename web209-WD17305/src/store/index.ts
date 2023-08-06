@@ -1,5 +1,4 @@
 import { cartReducer } from '@/slices/cart';
-import { counterReducer } from '@/slices/counter';
 import { productReducer } from '@/slices/product';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { authSliceReducer } from '@/slices/auth';
@@ -27,11 +26,10 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-    counter: counterReducer,
     product: productReducer,
     cart: cartReducer,
     auth: authSliceReducer,
-    comment:commentReducer 
+    comment:commentReducer,
  })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
